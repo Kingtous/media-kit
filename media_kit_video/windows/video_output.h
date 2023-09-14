@@ -125,6 +125,8 @@ class VideoOutput {
   // ID is changed. Only happens when video output resolution changes.
   std::function<void(int64_t, int64_t, int64_t)> texture_update_callback_ =
       [](int64_t, int64_t, int64_t) {};
+  
+  ULONGLONG last_update_time_;
 };
 
 #endif  // VIDEO_OUTPUT_H_
