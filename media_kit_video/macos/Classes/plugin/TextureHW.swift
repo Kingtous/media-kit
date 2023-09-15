@@ -88,6 +88,9 @@ public class TextureHW: NSObject, FlutterTexture, ResizableTextureProtocol {
     MPVHelpers.checkError(
       mpv_render_context_create(&renderContext, handle, &params)
     )
+//    mpv_set_option_string(renderContext, "no-audio", "yes");
+//    mpv_set_option_string(renderContext, "video-timing-offset", "0");
+//    mpv_set_option_string(renderContext, "subtitles", "no");
 
     mpv_render_context_set_update_callback(
       renderContext,
