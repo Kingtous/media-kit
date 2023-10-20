@@ -16,6 +16,8 @@
 #define SW_RENDERING_MAX_HEIGHT 1080
 #define SW_RENDERING_PIXEL_BUFFER_SIZE \
   (SW_RENDERING_MAX_WIDTH) * (SW_RENDERING_MAX_HEIGHT) * (4)
+#define HW_FRAME_RATE 30
+#define HW_FRAME_RATE_FPS "fps=30"
 
 VideoOutput::VideoOutput(int64_t handle,
                          VideoOutputConfiguration configuration,
@@ -35,6 +37,7 @@ VideoOutput::VideoOutput(int64_t handle,
     mpv_set_option_string(handle_, "no-audio", "yes");
     mpv_set_option_string(handle_, "video-timing-offset", "0");
     mpv_set_option_string(handle_, "subtitles", "no");
+    // mpv_set_option_string(handle_, "vf", HW_FRAME_RATE_FPS);
     // First try to initialize video playback with hardware acceleration &
     // |ANGLESurfaceManager|, use S/W API as fallback.
     auto is_hardware_acceleration_enabled = false;
@@ -154,10 +157,10 @@ void VideoOutput::NotifyRender() {
     return;
   }
   ULONGLONG currentTickCount = GetTickCount64();
-  // 15fps
-  if (currentTickCount - last_update_time_ <= 1000 / 15) {
-    return;
-  }
+  // 24fps
+  // if (currentTickCount - last_update_time_ <= 1000 / HW_FRAME_RATE) {
+  //   return;
+  // }
   thread_pool_ref_->Post(std::bind(&VideoOutput::CheckAndResize, this));
   thread_pool_ref_->Post(std::bind(&VideoOutput::Render, this));
   last_update_time_ = currentTickCount;
