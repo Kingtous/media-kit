@@ -3,7 +3,6 @@
 #elseif canImport(FlutterMacOS)
   import FlutterMacOS
 #endif
-
 // This class creates and manipulates the different types of FlutterTexture,
 // handles resizing, rendering calls, and notify Flutter when a new frame is
 // available to render.
@@ -35,6 +34,7 @@ public class VideoOutput: NSObject {
   private var currentWidth: Int64 = 0
   private var currentHeight: Int64 = 0
   private var disposed: Bool = false
+  private var lastUpdateTime: Date = Date()
 
   init(
     handle: Int64,
@@ -125,6 +125,14 @@ public class VideoOutput: NSObject {
   }
 
   public func updateCallback() {
+      let dt = Date()
+      let interval = dt.timeIntervalSince(lastUpdateTime)
+      let ms = Int64(interval * 1000);
+      if (ms < 1000 / 10) {
+          return;
+      }
+      lastUpdateTime = dt
+      
     worker.enqueue {
       self._updateCallback()
     }
