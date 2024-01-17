@@ -152,8 +152,12 @@ VideoOutput::~VideoOutput() {
   });
 }
 
+void VideoOutput::SetRenderDisable(bool disabled) {
+  disable_render_ = disabled;
+}
+
 void VideoOutput::NotifyRender() {
-  if (destroyed_) {
+  if (destroyed_ || disable_render_) {
     return;
   }
   ULONGLONG currentTickCount = GetTickCount64();

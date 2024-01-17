@@ -59,6 +59,10 @@ abstract class PlatformVideoController {
   /// Use [waitUntilFirstFrameRendered] to wait for the first frame to be rendered.
   @protected
   final waitUntilFirstFrameRenderedCompleter = Completer<void>();
+
+  Future<void> setRenderDisable(bool disable) async {
+    // ignore
+  }
 }
 
 /// {@template video_controller_configuration}

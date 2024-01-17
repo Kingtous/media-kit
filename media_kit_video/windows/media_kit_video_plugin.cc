@@ -136,7 +136,17 @@ void MediaKitVideoPlugin::HandleMethodCall(
         ::GetAncestor(registrar_->GetView()->GetNativeWindow(), GA_ROOT);
     Utils::EnterNativeFullscreen(window);
     result->Success(flutter::EncodableValue(std::monostate{}));
-  } else if (method_call.method_name().compare("Utils.ExitNativeFullscreen") ==
+  } else if (method_call.method_name().compare("VideoOutputManager.SetRenderDisable") ==
+             0) {
+    auto arguments = std::get<flutter::EncodableMap>(*method_call.arguments());
+    auto handle =
+        std::get<std::string>(arguments[flutter::EncodableValue("handle")]);
+    auto handle_value = static_cast<int64_t>(std::stoll(handle.c_str()));
+    auto disable =
+        std::get<bool>(arguments[flutter::EncodableValue("disable")]);
+    video_output_manager_->SetRenderDisable(handle_value, disable);
+    result->Success(flutter::EncodableValue(std::monostate{}));
+  }else if (method_call.method_name().compare("Utils.ExitNativeFullscreen") ==
              0) {
     auto window =
         ::GetAncestor(registrar_->GetView()->GetNativeWindow(), GA_ROOT);

@@ -43,6 +43,8 @@ class VideoOutputManager {
   // Destroys the |VideoOutput| with given handle.
   void Dispose(int64_t handle);
 
+  void SetRenderDisable(int64_t handle, bool disable);
+
   ~VideoOutputManager();
 
  private:

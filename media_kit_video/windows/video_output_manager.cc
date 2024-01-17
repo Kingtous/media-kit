@@ -47,6 +47,15 @@ void VideoOutputManager::Dispose(int64_t handle) {
   }).detach();
 }
 
+void VideoOutputManager::SetRenderDisable(int64_t handle, bool disable) {
+  std::thread([=]() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (video_outputs_.find(handle) != video_outputs_.end()) {
+      video_outputs_[handle]->SetRenderDisable(disable);
+    }
+  }).detach();
+}
+
 VideoOutputManager::~VideoOutputManager() {
   std::lock_guard<std::mutex> lock(mutex_);
   // |VideoOutput| destructor will do the relevant cleanup.

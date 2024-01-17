@@ -76,6 +76,8 @@ class VideoOutput {
 
   void SetSize(std::optional<int64_t> width, std::optional<int64_t> height);
 
+  void SetRenderDisable(bool disabled);
+
  private:
   void NotifyRender();
 
@@ -102,6 +104,8 @@ class VideoOutput {
   // deletion after unregister in |Resize|) access this object after
   // destruction.
   bool destroyed_ = false;
+
+  bool disable_render_ = false;
 
   std::mutex textures_mutex_ = std::mutex();
 

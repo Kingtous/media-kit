@@ -245,4 +245,16 @@ class NativeVideoController extends PlatformVideoController {
             }
           },
         );
+        
+  @override
+  Future<void> setRenderDisable(bool disable) async {
+    final handle = await player.handle;
+    return await _channel.invokeMethod(
+      'VideoOutputManager.SetRenderDisable',
+      {
+        'handle': handle.toString(),
+        'disable': disable,
+      },
+    );
+  }
 }
